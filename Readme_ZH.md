@@ -1,0 +1,2 @@
+CommonMinecraftLauncher2是一个用PyQt5和qfluentWidgets驱动的Minecraft启动器，
+此启动器为学生的个人产物，可能会有令人血压极高的代码和诸多Bug,当成乐子就好（
