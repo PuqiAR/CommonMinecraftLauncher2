@@ -1,0 +1,9 @@
+.vscode/
+__pycache__/
+Asset/__pycache__
+CMCL/__pycache__
+CMCL/CMCLib/__pycache__
+CMCL/Logs
+Dev-Tools
+Pages/__pycache__
+QtUi/__pycache__
