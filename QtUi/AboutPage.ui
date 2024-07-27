@@ -68,7 +68,7 @@
           <property name="font">
            <font>
             <family>MiSans</family>
-            <pointsize>16</pointsize>
+            <pointsize>14</pointsize>
            </font>
           </property>
           <property name="text">
