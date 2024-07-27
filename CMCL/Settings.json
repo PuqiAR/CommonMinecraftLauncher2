@@ -1,0 +1,21 @@
+{
+    "Launcher": {
+        "WindowTitle": "CMCL2",
+        "Menu": [
+            "Home",
+            "Launch",
+            "Manage",
+            "Download",
+            "Settings"
+        ],
+        "SplashScreenTime": 350,
+        "WindowSize": [
+            1000,
+            600
+        ]
+    },
+    "QFluentWidgets": {
+        "ThemeColor": "#ff009faa",
+        "ThemeMode": "Light"
+    }
+}
