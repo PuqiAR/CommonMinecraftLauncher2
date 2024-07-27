@@ -32,6 +32,8 @@ else:
     logger.info("Welcome use CMCL2!")
 
 from CMCL.CMCLib.SettingsController import Config
+from CMCL.CMCLib.Variables import *
+
 
 QtCore.QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
 QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps)
