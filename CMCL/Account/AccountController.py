@@ -57,11 +57,11 @@ class AccountController:
             account.Cape = Skin.getCape(account.Name)
 
         if account.type == constants.loginMethod.Official:
-            Accounts.accounts_data[constants.loginMethod.Official].append(account)
+            accounts.accounts_data[constants.loginMethod.Official].append(account)
         elif account.type == constants.loginMethod.Offline:
-            Accounts.accounts_data[constants.loginMethod.Offline].append(account)
+            accounts.accounts_data[constants.loginMethod.Offline].append(account)
         elif account.type == constants.loginMethod.ThirdParty:
-            Accounts.accounts_data[constants.loginMethod.ThirdParty].append(account)
+            accounts.accounts_data[constants.loginMethod.ThirdParty].append(account)
         else:
             raise Exception("Invalid account type")
     @staticmethod
@@ -71,9 +71,9 @@ class AccountController:
             f.write(pickle_dumps(account))
     @staticmethod
     def save_accounts():
-        for account in Accounts.accounts_data[constants.loginMethod.Official]:
+        for account in accounts.accounts_data[constants.loginMethod.Official]:
             AccountController.save_account(account)
-        for account in Accounts.accounts_data[constants.loginMethod.Offline]:
+        for account in accounts.accounts_data[constants.loginMethod.Offline]:
             AccountController.save_account(account)
-        for account in Accounts.accounts_data[constants.loginMethod.ThirdParty]:
+        for account in accounts.accounts_data[constants.loginMethod.ThirdParty]:
             AccountController.save_account(account)

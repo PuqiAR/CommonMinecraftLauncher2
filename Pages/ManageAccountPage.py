@@ -81,18 +81,18 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
         self.PopUpAniStackedWidget.addWidget(self.offlineAccountPage)
         self.PopUpAniStackedWidget.addWidget(self.thirdpartyAccountPage)
 
-        if len(Accounts.accounts_data[constants.loginMethod.Official])>0:
+        if len(accounts.accounts_data[constants.loginMethod.Official])>0:
             self.switchToPage(constants.loginMethod.Official)
-        elif len(Accounts.accounts_data[constants.loginMethod.Offline])>0:
+        elif len(accounts.accounts_data[constants.loginMethod.Offline])>0:
             self.switchToPage(constants.loginMethod.Offline)
-        elif len(Accounts.accounts_data[constants.loginMethod.ThirdParty])>0:
+        elif len(accounts.accounts_data[constants.loginMethod.ThirdParty])>0:
             self.switchToPage(constants.loginMethod.ThirdParty)
         else:
             self.emptyAccountPage = EmptyAccountPage(self,"任意")
             self.switchToPage("empty")
     def load_accounts_list(self):
         self.officialAccountPage.listWidget.clear()
-        for account in Accounts.accounts_data[constants.loginMethod.Official]:
+        for account in accounts.accounts_data[constants.loginMethod.Official]:
             card = AccountCard(None,account)
             self.officialAccountPage.add(card,80)
 
@@ -149,7 +149,7 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
     def ms_login_success(self,account:MSAccount):
         AccountController._add_account(account)
         self.MicrosoftOAuthProgressMessageBox.close()
-        if account in Accounts.accounts_data[constants.loginMethod.Official]:
+        if account in accounts.accounts_data[constants.loginMethod.Official]:
             InfoBar.warning(
                 "登录到正版账户",
                 f"正版账户{account.Name}已存在!",

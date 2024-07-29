@@ -34,3 +34,5 @@ class Accounts:
             constants.loginMethod.ThirdParty:[
             ],
     }
+
+accounts = Accounts()
