@@ -25,7 +25,10 @@ class AccountCard(Ui_AccountCard,QWidget):
         self.Account = Account
         self.BodyLabel_Name.setText(Account.Name)
         self.CaptionLabel.setText(AccountLoginMethod(Account))
-        self.refreshPixmap()
+        if Account.type == constants.loginMethod.Official:
+            self.refreshPixmap()
+        else:
+            self.ImageLabel.setText("无")
     def getProfile(self):
         self.profile = Skin.getProfile(self.Account.Name)
     def setProfile(self):

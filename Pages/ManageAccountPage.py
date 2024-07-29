@@ -20,7 +20,8 @@ from qfluentwidgets import (
     FluentIcon,
     ListWidget,
     BodyLabel,
-    InfoBar
+    InfoBar,
+    MessageBox
 )
 
 from QtUi.Ui_ManageAccount import Ui_Form as Ui_ManageAccount
@@ -49,6 +50,9 @@ class AccountShowingPage(QWidget):
             listItem.setSizeHint(QSize(928,sizeHint))
         self.listWidget.addItem(listItem)
         self.listWidget.setItemWidget(listItem,widget)
+        return listItem
+    def removeAccount(self):
+        self.listWidget.removeItemWidget(self.listWidget.currentItem())
 
 class EmptyAccountPage(QWidget):
     def __init__(self,parent,loginMethod):
@@ -90,11 +94,40 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
         else:
             self.emptyAccountPage = EmptyAccountPage(self,"任意")
             self.switchToPage("empty")
+    def delete_account(self,account:MCAccount):
+        msgBox = MessageBox(
+            "删除账户",
+            f"确定删除账户{account.Name}?",
+            self
+        )
+        if msgBox.exec():
+            AccountController.remove_account(account)
+            if account.type == constants.loginMethod.Official:
+                self.officialAccountPage.removeAccount()
+            elif account.type == constants.loginMethod.Offline:
+                self.offlineAccountPage.removeAccount()
+            elif account.type == constants.loginMethod.ThirdParty:
+                self.thirdpartyAccountPage.removeAccount()
+            InfoBar.warning(
+                "删除账户",
+                f"成功删除账户{account.Name}",
+                duration=5000,
+                parent=self
+            )
     def load_accounts_list(self):
         self.officialAccountPage.listWidget.clear()
         for account in accounts.accounts_data[constants.loginMethod.Official]:
             card = AccountCard(None,account)
+            card.PushButton_Delete.clicked.connect(lambda: self.delete_account(account))
             self.officialAccountPage.add(card,80)
+        for account in accounts.accounts_data[constants.loginMethod.Offline]:
+            card = AccountCard(None,account)
+            card.PushButton_Delete.clicked.connect(lambda: self.delete_account(account))
+            self.offlineAccountPage.add(card,80)
+        for account in accounts.accounts_data[constants.loginMethod.ThirdParty]:
+            card = AccountCard(None,account)
+            card.PushButton_Delete.clicked.connect(lambda: self.delete_account(account))
+            self.thirdpartyAccountPage.add(card,80)
 
     def add_account_msgBox(self):
         messageBox = ComboMessageBox(self,"账户类型")
@@ -147,7 +180,6 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
         """
         self.use_info_bar_show_message = True
     def ms_login_success(self,account:MSAccount):
-        AccountController._add_account(account)
         self.MicrosoftOAuthProgressMessageBox.close()
         if account in accounts.accounts_data[constants.loginMethod.Official]:
             InfoBar.warning(
@@ -163,6 +195,7 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
                 parent=self,
                 duration=5000
             )
+            AccountController._add_account(account)
             self.push_ms_account(account)
     def add_ms_account(self):
         self.MicrosoftOAuthProgressMessageBox = ProgressBarMessageBox(self,"",userClosedCallBack=lambda:self.show_add_ms_account_message())

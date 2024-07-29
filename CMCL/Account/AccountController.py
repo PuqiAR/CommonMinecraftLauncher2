@@ -24,6 +24,7 @@ logger.debug("ACCOUNT_PATH: %s"%ACCOUNT_PATH)
 class AccountController:
     @staticmethod
     def load_accounts():
+        
         for file_path in listdir(Config.AccountsPath.value):
             logger.debug("file_path: %s"%file_path)
             if not file_path.endswith(".acc"):
@@ -77,3 +78,12 @@ class AccountController:
             AccountController.save_account(account)
         for account in accounts.accounts_data[constants.loginMethod.ThirdParty]:
             AccountController.save_account(account)
+    @staticmethod
+    def remove_account(Account:MCAccount):
+        remove(osp.join(Config.AccountsPath.value,constants.AccountDataFileFormat%Account.Name))
+        if Account.type == constants.loginMethod.Official:
+            accounts.accounts_data[constants.loginMethod.Official].remove(Account)
+        elif Account.type == constants.loginMethod.Offline:
+            accounts.accounts_data[constants.loginMethod.Offline].remove(Account)
+        elif Account.type == constants.loginMethod.ThirdParty:
+            accounts.accounts_data[constants.loginMethod.ThirdParty].remove(Account)
