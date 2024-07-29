@@ -36,9 +36,15 @@ class Ui_Form(object):
         self.CaptionLabel.setFont(font)
         self.CaptionLabel.setObjectName("CaptionLabel")
         self.verticalLayout.addWidget(self.CaptionLabel)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
         self.SegmentedWidget = SegmentedWidget(Form)
         self.SegmentedWidget.setObjectName("SegmentedWidget")
-        self.verticalLayout.addWidget(self.SegmentedWidget)
+        self.horizontalLayout.addWidget(self.SegmentedWidget)
+        self.TransparentToolButton = TransparentToolButton(Form)
+        self.TransparentToolButton.setObjectName("TransparentToolButton")
+        self.horizontalLayout.addWidget(self.TransparentToolButton)
+        self.verticalLayout.addLayout(self.horizontalLayout)
         self.PopUpAniStackedWidget = PopUpAniStackedWidget(Form)
         self.PopUpAniStackedWidget.setObjectName("PopUpAniStackedWidget")
         self.page = QtWidgets.QWidget()
@@ -47,7 +53,7 @@ class Ui_Form(object):
         self.verticalLayout.addWidget(self.PopUpAniStackedWidget)
         self.verticalLayout.setStretch(0, 2)
         self.verticalLayout.setStretch(1, 1)
-        self.verticalLayout.setStretch(2, 1)
+        self.verticalLayout.setStretch(2, 3)
         self.verticalLayout.setStretch(3, 30)
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
@@ -59,4 +65,4 @@ class Ui_Form(object):
         Form.setWindowTitle(_translate("Form", "Form"))
         self.BodyLabel.setText(_translate("Form", "管理账户"))
         self.CaptionLabel.setText(_translate("Form", "在这里管理你的所有账户"))
-from qfluentwidgets import BodyLabel, CaptionLabel, PopUpAniStackedWidget, SegmentedWidget
+from qfluentwidgets import BodyLabel, CaptionLabel, PopUpAniStackedWidget, SegmentedWidget, TransparentToolButton

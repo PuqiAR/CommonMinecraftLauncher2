@@ -23,8 +23,9 @@ class SettingsController(QConfig):
     WindowSize = ConfigItem("Launcher","WindowSize",[1000,600],restart=True)
     Menu_Sequence = ConfigItem("Launcher","Menu",["Home","Launch","Manage","Download","Settings"],restart=True)
     SplashScreenTime= RangeConfigItem("Launcher","SplashScreenTime",1.5,RangeValidator(0,3000),restart=True)
+    MaxInfoBars = ConfigItem("Launcher","MaxInfoBars",4)
 
-    AccountsPath = ConfigItem("Account","AccountsPath",osp.join(Paths.INTERNALPATH,"Account"),restart=True)
+    AccountsPath = ConfigItem("Account","AccountsPath",osp.join(Paths.INTERNALPATH,"Account","Data"),restart=True)
 
 Config = SettingsController()
 

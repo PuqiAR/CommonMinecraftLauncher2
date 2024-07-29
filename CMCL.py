@@ -10,6 +10,7 @@ from PyQt5 import QtCore
 
 from sys import argv as application_args
 from sys import exit as application_exit
+import gc
 #from os import path as osp
 from ctypes import windll
 
@@ -21,7 +22,7 @@ update_Paths()
 from CMCL.CMCLib.Logger import logger
 from CMCL.DevConf import *
 from CMCL.CMCLib.Utils import os_is_dark_theme
-
+from CMCL.Account.AccountController import *
 from qfluentwidgets import Dialog,setThemeColor,setTheme,Theme
 
 from qdarkstyle import load_stylesheet_pyqt5
@@ -53,6 +54,8 @@ from Asset.FluentIcons.FluentIconsEx import *
 
 #logger.info(f"dark theme:{os_is_dark_theme()}")
 
+gc.enable()
+
 with open(osp.join(realpath.get(),"Asset/DarkStyle.qss"),"r",encoding="utf-8") as f:
     DarkStyle = f.read()
 
@@ -77,6 +80,7 @@ if CMCL_DEV_MODE:
     mainwindow = MainWindow()
     ret = app.exec()
     Config.save()
+    AccountController.save_accounts()
     application_exit(ret)
 else:
     try:
@@ -95,4 +99,5 @@ else:
         messageDialog.exec()
     finally:
         Config.save()
+        AccountController.save_accounts()
         application_exit(0 if has_exception else -1)

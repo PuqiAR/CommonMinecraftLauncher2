@@ -50,14 +50,14 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="TabBar" name="TabBar"/>
+        <widget class="TabBar" name="TabBar">
+         <property name="movable">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QStackedWidget" name="stackedWidget">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(255, 255, 255);</string>
-         </property>
-         <widget class="QWidget" name="page"/>
+        <widget class="PopUpAniStackedWidget" name="stackedWidget">
          <widget class="QWidget" name="page_2"/>
         </widget>
        </item>
@@ -71,6 +71,12 @@
   <customwidget>
    <class>SingleDirectionScrollArea</class>
    <extends>QScrollArea</extends>
+   <header>qfluentwidgets</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PopUpAniStackedWidget</class>
+   <extends>QStackedWidget</extends>
    <header>qfluentwidgets</header>
    <container>1</container>
   </customwidget>

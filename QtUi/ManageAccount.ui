@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1,1,30">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="2,1,3,30">
      <property name="spacing">
       <number>10</number>
      </property>
@@ -48,7 +48,14 @@
       </widget>
      </item>
      <item>
-      <widget class="SegmentedWidget" name="SegmentedWidget"/>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="SegmentedWidget" name="SegmentedWidget"/>
+       </item>
+       <item>
+        <widget class="TransparentToolButton" name="TransparentToolButton"/>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="PopUpAniStackedWidget" name="PopUpAniStackedWidget">
@@ -60,6 +67,16 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>ToolButton</class>
+   <extends>QToolButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>TransparentToolButton</class>
+   <extends>ToolButton</extends>
+   <header>qfluentwidgets</header>
+  </customwidget>
   <customwidget>
    <class>PopUpAniStackedWidget</class>
    <extends>QStackedWidget</extends>

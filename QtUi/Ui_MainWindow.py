@@ -31,14 +31,11 @@ class Ui_MainWindow(object):
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
         self.TabBar = TabBar(MainWindow)
+        self.TabBar.setMovable(True)
         self.TabBar.setObjectName("TabBar")
         self.verticalLayout.addWidget(self.TabBar)
-        self.stackedWidget = QtWidgets.QStackedWidget(MainWindow)
-        self.stackedWidget.setStyleSheet("background-color: rgb(255, 255, 255);")
+        self.stackedWidget = PopUpAniStackedWidget(MainWindow)
         self.stackedWidget.setObjectName("stackedWidget")
-        self.page = QtWidgets.QWidget()
-        self.page.setObjectName("page")
-        self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
         self.stackedWidget.addWidget(self.page_2)
@@ -52,4 +49,4 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Form"))
-from qfluentwidgets import NavigationInterface, TabBar
+from qfluentwidgets import NavigationInterface, PopUpAniStackedWidget,TabBar

@@ -1,6 +1,10 @@
 {
+    "Account": {
+        "AccountsPath": "F:\\Files\\Maker\\Code\\CommonMinecraftLauncher-PyQT\\CMCLv2\\CMCL\\Account\\Data"
+    },
     "Launcher": {
         "WindowTitle": "CMCL2",
+        "MaxInfoBars": 4,
         "Menu": [
             "Home",
             "Launch",

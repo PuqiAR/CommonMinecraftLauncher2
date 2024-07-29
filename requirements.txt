@@ -6,3 +6,4 @@ pyyaml
 nuitka
 colorlog
 PyQtDarkTheme
+selenium

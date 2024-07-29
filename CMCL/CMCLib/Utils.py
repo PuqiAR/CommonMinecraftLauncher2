@@ -5,6 +5,11 @@
 # Licensed under the MIT License #
 ##################################
 
+from requests import get as http_get
+from json import loads as json_loads
+
+from PyQt5.QtGui import QPixmap,QImage
+from PyQt5.QtCore import QObject, QThread
 def os_is_dark_theme(): 
     try:
         import winreg
@@ -31,3 +36,45 @@ def readFile(path) -> str:
     x = f.read()
     f.close()
     return x
+
+def ms_get_uuid(name:str)->str:
+    content = http_get(f"https://api.mojang.com/users/profiles/minecraft/{name}").text
+    return json_loads(content)['id']
+def ms_get_user_all_profile(accessToken:str)->dict:
+    content = http_get(f"https://api.minecraftservices.com/minecraft/profile",headers={'Authorization':f'Bearer {accessToken}'}).text
+    return json_loads(content)
+
+class Skin:
+    @staticmethod
+    def getHead(name:str) -> bytes:
+        response = http_get(f"https://crafatar.com/renders/head/{ms_get_uuid(name)}")
+        return response.content
+    @staticmethod
+    def getProfile(name:str) -> bytes:
+        response = http_get(f"https://crafatar.com/avatars/{ms_get_uuid(name)}")
+        return response.content
+    @staticmethod
+    def getBodyRenders(name:str) -> bytes:
+        response = http_get(f"https://crafatar.com/renders/body/{ms_get_uuid(name)}")
+        return response.content
+    @staticmethod
+    def getCape(name:str) -> bytes:
+        response = http_get(f"https://crafatar.com/capes/{ms_get_uuid(name)}")
+        return response.content
+    @staticmethod
+    def getSkin(name:str) -> bytes:
+        response = http_get(f"https://crafatar.com/skins/{ms_get_uuid(name)}")
+        return response.content
+
+def bytesToImage(data:bytes):
+    return QImage.fromData(data)
+def bytesToPixmap(data:bytes):
+    return QPixmap.fromImage(bytesToImage(data))
+
+class Thread(QThread):
+    def __init__(self, parent,worker) -> None:
+        super().__init__(parent)
+        self.worker = worker
+    def run(self) -> None:
+        self.worker()
+        self.finished.emit()

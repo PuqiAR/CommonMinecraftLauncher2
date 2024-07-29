@@ -25,10 +25,12 @@ from CMCL.CMCLib.RealPath import Paths
 from CMCL.DevConf import *
 from CMCL.FluentUIExtend import CustomTitleBar
 
+
+from QtUi.Ui_MainWindow import Ui_MainWindow
 from Pages.HomePage import HomePage
 from Pages.SettingsPage import SettingsPage
-from QtUi.Ui_MainWindow import Ui_MainWindow
 from Pages.AboutPage import AboutPage
+from Pages.ManageAccountPage import ManageAccountPage
 
 
 class MainWindow(Ui_MainWindow,FramelessWindow):
@@ -104,11 +106,12 @@ class MainWindow(Ui_MainWindow,FramelessWindow):
         """
         logger.debug(f"Initing Pages,Current page:{self.stackedWidget.currentIndex()}")
 
+        self.NavigationInterface
         # 各个Page的QWidget
         self.emptyWidget = QWidget()
         self.homepage = HomePage(self)
         self.launch_page = None
-        self.manage_account_page = None
+        self.manage_account_page = ManageAccountPage(self)
         self.manage_game_page = None
         self.download_page = None
         self.settings_page = SettingsPage(self)
@@ -116,6 +119,7 @@ class MainWindow(Ui_MainWindow,FramelessWindow):
 
         self.stackedWidget.addWidget(self.emptyWidget)
         self.stackedWidget.addWidget(self.homepage)
+        self.stackedWidget.addWidget(self.manage_account_page)
         self.stackedWidget.addWidget(self.settings_page)
         self.stackedWidget.addWidget(self.about_application_page)
 
@@ -134,7 +138,6 @@ class MainWindow(Ui_MainWindow,FramelessWindow):
         self.pages_to_zh = {
             "Home":"主页",
             "Launch":"启动",
-            #"Manage":"管理",
             "Manage_Account":"账户",
             "Manage_Game":"游戏",
             "Download":"下载",
@@ -180,7 +183,7 @@ class MainWindow(Ui_MainWindow,FramelessWindow):
         self.TabBar.removeTabByKey(routeKey)
 
         if len(self.TabBar.items) == 0:
-            
+            self.stackedWidget.setCurrentWidget(self.emptyWidget)
             return
         routeKey = self.TabBar.currentTab().routeKey()
         self.switchToPage(routeKey)

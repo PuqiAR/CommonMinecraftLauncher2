@@ -11,6 +11,26 @@ class Constants:
         Official = "Official"
         Offline = "Offline"
         ThirdParty = "ThirdParty"
-    loginMethod = LoginMethod()
+    class LoginFormat:
+        Accounts = "Accounts"
+        AccessToken = "AccessToken"
+        Token = "Token"
+        RefreshToken = "RefreshToken"
+        SkinPath = "SkinPath"
 
+    loginMethod = LoginMethod()
+    loginFormat = LoginFormat()
+
+    AccountDataFileFormat = "%s.acc"
 constants = Constants()
+
+
+class Accounts:
+    accounts_data = {
+            constants.loginMethod.Official:[
+            ],
+            constants.loginMethod.Offline:[
+            ],
+            constants.loginMethod.ThirdParty:[
+            ],
+    }
