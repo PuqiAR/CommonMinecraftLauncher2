@@ -20,6 +20,8 @@ class AccountCard(Ui_AccountCard,QWidget):
     def __init__(self,parent,Account:MCAccount):
         super().__init__(parent)
         self.setupUi(self)
+        self.ImageLabel.setAutoFillBackground(False)
+        self.ImageLabel.setStyleSheet("background-color:transparent;")
         self.Account = Account
         self.BodyLabel_Name.setText(Account.Name)
         self.CaptionLabel.setText(AccountLoginMethod(Account))
