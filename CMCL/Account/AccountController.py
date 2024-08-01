@@ -50,12 +50,6 @@ class AccountController:
     @staticmethod
     def _add_account(account:MCAccount):
         logger.debug(f"account type is {type(account)}")
-        if not account.Avatar:
-            account.Avatar = Skin.getProfile(account.Name)
-        if not account.Skin:
-            account.Skin = Skin.getSkin(account.Name)
-        if not account.Cape:
-            account.Cape = Skin.getCape(account.Name)
 
         if account.type == constants.loginMethod.Official:
             accounts.accounts_data[constants.loginMethod.Official].append(account)
@@ -65,6 +59,15 @@ class AccountController:
             accounts.accounts_data[constants.loginMethod.ThirdParty].append(account)
         else:
             raise Exception("Invalid account type")
+        if not account.type == constants.loginMethod.Official:
+            return
+        if not account.Avatar:
+            account.Avatar = Skin.getProfile(account.Name)
+        if not account.Skin:
+            account.Skin = Skin.getSkin(account.Name)
+        if not account.Cape:
+            account.Cape = Skin.getCape(account.Name)
+
     @staticmethod
     def save_account(account:MCAccount):
         name = account.Name

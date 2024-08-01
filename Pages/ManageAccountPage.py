@@ -44,15 +44,20 @@ class AccountShowingPage(QWidget):
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(self.listWidget)
         self.layout().setContentsMargins(0,0,0,0)
-    def add(self,widget,sizeHint=None):
+
+        self.account_to_cards = {
+
+        }
+    def add(self,widget:AccountCard,sizeHint=None):
         listItem = QListWidgetItem()
         if sizeHint:
             listItem.setSizeHint(QSize(928,sizeHint))
         self.listWidget.addItem(listItem)
         self.listWidget.setItemWidget(listItem,widget)
-        return listItem
-    def removeAccount(self):
-        self.listWidget.removeItemWidget(self.listWidget.currentItem())
+        self.account_to_cards[widget.Account] = listItem
+    def removeAccount(self,acc):
+        self.listWidget.removeItemWidget(self.account_to_cards[acc])
+        del self.account_to_cards[acc]
 
 class EmptyAccountPage(QWidget):
     def __init__(self,parent,loginMethod):
@@ -103,11 +108,13 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
         if msgBox.exec():
             AccountController.remove_account(account)
             if account.type == constants.loginMethod.Official:
-                self.officialAccountPage.removeAccount()
+                self.officialAccountPage.removeAccount(account)
             elif account.type == constants.loginMethod.Offline:
-                self.offlineAccountPage.removeAccount()
+                self.offlineAccountPage.removeAccount(account)
             elif account.type == constants.loginMethod.ThirdParty:
-                self.thirdpartyAccountPage.removeAccount()
+                self.thirdpartyAccountPage.removeAccount(account)
+            else:
+                logger.warning("unknow type of account:%s"%account.type)
             InfoBar.warning(
                 "删除账户",
                 f"成功删除账户{account.Name}",
@@ -235,11 +242,17 @@ class ManageAccountPage(Ui_ManageAccount,QWidget):
         )
         QApplication.processEvents()
     def push_ms_account(self,account:MSAccount):
-        self.officialAccountPage.add(AccountCard(None,account),80)
+        card=AccountCard(None,account)
+        card.PushButton_Delete.clicked.connect(lambda:self.delete_account(account))
+        self.officialAccountPage.add(card,80)
     def push_offline_account(self,account:OfflineAccount):
-        self.offlineAccountPage.add(AccountCard(None,account),80)
+        card=AccountCard(None,account)
+        card.PushButton_Delete.clicked.connect(lambda:self.delete_account(account))
+        self.offlineAccountPage.add(card,80)
     def push_third_party_account(self,account:ThirdPartyAccount):
-        self.thirdpartyAccountPage.add(AccountCard(None,account),80)
+        card=AccountCard(None,account)
+        card.PushButton_Delete.clicked.connect(lambda:self.delete_account(account))
+        self.thirdpartyAccountPage.add(card,80)
     def push_account(self,account:MCAccount):
         if account.type == constants.loginMethod.Official:
             self.push_ms_account(account)

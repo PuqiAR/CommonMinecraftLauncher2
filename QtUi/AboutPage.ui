@@ -67,7 +67,7 @@
          <widget class="QLabel" name="label">
           <property name="font">
            <font>
-            <family>MiSans</family>
+            <family>Microsoft YaHei</family>
             <pointsize>14</pointsize>
            </font>
           </property>

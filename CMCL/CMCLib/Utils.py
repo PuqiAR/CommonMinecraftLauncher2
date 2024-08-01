@@ -10,6 +10,7 @@ from json import loads as json_loads
 
 from PyQt5.QtGui import QPixmap,QImage
 from PyQt5.QtCore import QObject, QThread
+from CMCL.CMCLib.Logger import logger
 def os_is_dark_theme(): 
     try:
         import winreg
@@ -70,6 +71,18 @@ def bytesToImage(data:bytes):
     return QImage.fromData(data)
 def bytesToPixmap(data:bytes):
     return QPixmap.fromImage(bytesToImage(data))
+
+def Retry(func,times=3):
+    def wrapper(*args,**kwargs):
+        for i in range(times):
+            try:
+                return func(*args,**kwargs)
+            except Exception as e:
+                logger.error("execute faild,error "+e.__str__())
+                continue
+        return -1
+    return wrapper
+
 
 class Thread(QThread):
     def __init__(self, parent,worker) -> None:

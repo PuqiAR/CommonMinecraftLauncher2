@@ -16,12 +16,14 @@ from CMCL.Account.CMCLAccounts import *
 
 from CMCL.CMCLib.Utils import *
 
+AVATAR_SIZE = 64
+
 class AccountCard(Ui_AccountCard,QWidget):
     def __init__(self,parent,Account:MCAccount):
         super().__init__(parent)
         self.setupUi(self)
         self.ImageLabel.setAutoFillBackground(False)
-        self.ImageLabel.setStyleSheet("background-color:transparent;")
+        self.ImageLabel.setStyleSheet(self.ImageLabel.styleSheet()+"background-color:transparent;")
         self.Account = Account
         self.BodyLabel_Name.setText(Account.Name)
         self.CaptionLabel.setText(AccountLoginMethod(Account))
@@ -29,12 +31,13 @@ class AccountCard(Ui_AccountCard,QWidget):
             self.refreshPixmap()
         else:
             self.ImageLabel.setText("无")
+    @Retry
     def getProfile(self):
         self.profile = Skin.getProfile(self.Account.Name)
     def setProfile(self):
         img = bytesToPixmap(self.profile)
         self.ImageLabel.setScaledContents(True)
-        img = img.scaled(self.ImageLabel.width(), self.ImageLabel.height(), aspectRatioMode=QtCore.Qt.KeepAspectRatio)
+        img = img.scaled(AVATAR_SIZE, AVATAR_SIZE, aspectRatioMode=QtCore.Qt.KeepAspectRatio)
         self.ImageLabel.setImage(img)
     def refreshPixmap(self):
         self.th=Thread(self,lambda:self.getProfile())
