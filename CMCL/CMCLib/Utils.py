@@ -11,6 +11,8 @@ from json import loads as json_loads
 from PyQt5.QtGui import QPixmap,QImage
 from PyQt5.QtCore import QObject, QThread
 from CMCL.CMCLib.Logger import logger
+
+from CMCL.CMCLib.CMCLException import *
 def os_is_dark_theme(): 
     try:
         import winreg
@@ -83,6 +85,11 @@ def Retry(func,times=3):
         return -1
     return wrapper
 
+def Check(value,correct_value,method=lambda x,y:x==y,error=InternalException("Check faild")):
+    if method(value,correct_value):
+        return True
+    else:
+        raise error
 
 class Thread(QThread):
     def __init__(self, parent,worker) -> None:

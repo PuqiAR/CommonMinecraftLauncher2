@@ -17,6 +17,7 @@ from qfluentwidgets import (ExpandGroupSettingCard,
                             TeachingTip,
                             ComboBoxSettingCard,
                             RangeSettingCard,
+                            InfoBar,
                             qconfig
                         )
 from qfluentwidgets.common.icon import FluentIcon
@@ -140,15 +141,13 @@ class SettingsPage(Ui_SettingsPage,QWidget):
     def restart(self):
         self.restart_tt.close()
         if CMCL_DEV_MODE:
-            TeachingTip.create(
-                self,
-                "无法自动重启",                                    # Title
-                "CMCL处于开发模式,无法自动重启,请手动重启",           # Content
-                FluentIcon.CLOSE,                               # Icon
+            InfoBar.error(
+                "无法自动重启",
+                "CMCL处于开发模式,无法自动重启,程序将在1.5秒后退出,请手动重启CMCL2",
                 duration=1500,
-                tailPosition=TeachingTipTailPosition.TOP_RIGHT
+                parent=self                             
             )
-            QTimer.singleShot(1000,exit)
+            QTimer.singleShot(1500,exit)
         else:
             execl([osp.join(Paths.LIBPATH,"Restarter.exe"),CMCL_DEV_PROCESS_NAME,CMCL_EXECUTABELE])
     def init_settings_options(self):

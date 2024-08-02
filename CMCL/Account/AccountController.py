@@ -74,6 +74,31 @@ class AccountController:
         with open(osp.join(Config.AccountsPath.value,constants.AccountDataFileFormat%name),"wb") as f:
             f.write(pickle_dumps(account))
     @staticmethod
+    def update_account(account:MCAccount,new_account:MCAccount):
+        """
+        用于更新mc账户的名称,ms账户的token
+        更换type不支持，使用remove_account
+
+        Parameters:
+        -----------
+        account: MCAccount
+            the account to be updated
+        new_account: MCAccount
+            the new account to update to account
+        """
+        Check(
+            account.type,
+            new_account.type,
+            error=InternalException(f"trying refresh mc account: account {account.Name}:{account.type} doesn't match the refresh account {new_account.Name}:{account.type}")
+        )
+        Check(
+            account.Name in accounts.accounts_data[account.type],
+            True,
+            error=InternalException(f"trying refresh {account.Name} account: account {account.Name} doesn't exist in accounts")
+        )
+        accounts.accounts_data[account.Name] = new_account
+
+    @staticmethod
     def save_accounts():
         for account in accounts.accounts_data[constants.loginMethod.Official]:
             AccountController.save_account(account)

@@ -20,9 +20,18 @@ from CMCL.CMCLib.Utils import *
 from PyQt5.QtCore import QThread,pyqtSignal
 
 CMCL_MS_OAuth_URL = "https://login.live.com/oauth20_authorize.srf?client_id=00000000402b5328&response_type=code&scope=service::user.auth.xboxlive.com::MBI_SSL&redirect_uri=https://login.live.com/oauth20_desktop.srf"
-
-
-
+CMCL_MS_OAuth_URL = """
+https://login.live.com/oauth20_authorize.srf
+?client_id=00000000402b5328
+&scope=service::user.auth.xboxlive.com::MBI_SSL
+&redirect_uri=https://login.live.com/oauth20_desktop.srf
+&response_type=code
+&prompt=login
+&msproxy=1
+&issuer=mso
+&tenant=consumers
+&ui_locales=zh-CN
+"""
 
 class MSAuthThread(QThread):
     gotAuthCode = pyqtSignal(int)
@@ -212,4 +221,18 @@ class MSAuthThread(QThread):
         self.started.emit()
         self.Get_Auth_Code()
 
+
+class MSRefreshThread(QThread):
+    def __init__(self,Account:MSAccount):
+        """
+        Parameters
+        ----------
+        Account:MSAccount
+            the account that need to refresh
+        """
+        super().__init__(self)
+        self.Account = Account
+    def run(self) -> None:
+        logger.debug("starting MSRefreshThread")
+        self.started.emit()
 
